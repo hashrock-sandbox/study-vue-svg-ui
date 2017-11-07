@@ -1,11 +1,13 @@
 <template>
   <div id="app">
     <cute-button></cute-button>
+    <sparkline></sparkline>
   </div>
 </template>
 
 <script>
 import CuteButton from "./CuteButton.vue"
+import Sparkline from "./Sparkline.vue"
 export default {
   name: 'app',
   data () {
@@ -13,7 +15,8 @@ export default {
     }
   },
   components: {
-    CuteButton
+    CuteButton,
+    Sparkline
   }
 }
 </script>
