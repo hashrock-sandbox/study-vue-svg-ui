@@ -2,12 +2,14 @@
   <div id="app">
     <cute-button></cute-button>
     <sparkline></sparkline>
+    <slider></slider>
   </div>
 </template>
 
 <script>
 import CuteButton from "./CuteButton.vue"
 import Sparkline from "./Sparkline.vue"
+import Slider from "./Slider.vue"
 export default {
   name: 'app',
   data () {
@@ -16,7 +18,8 @@ export default {
   },
   components: {
     CuteButton,
-    Sparkline
+    Sparkline,
+    Slider
   }
 }
 </script>

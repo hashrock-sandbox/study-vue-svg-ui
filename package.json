@@ -8,6 +8,7 @@
     "poi": "^9.5.1"
   },
   "scripts": {
-    "dev": "poi"
+    "dev": "poi",
+    "build": "poi build"
   }
 }
