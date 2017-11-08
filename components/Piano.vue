@@ -10,10 +10,10 @@
       <stop stop-color="#ffffff" stop-opacity="0.996094" offset="1"/>
       </linearGradient>
     </defs>
-    <g v-for="(white, index) in whites" :key="index" :transform="whitePos(index)">
+    <g v-for="(white, index) in whites" :key="index" :transform="whitePos(index)" @click="play(white.note)" :class="{'selected': selectedNote === white.note}">
       <rect stroke="#000" id="svg_1" height="100" width="20" x="-0.333333" fill="url(#svg_4)"/>
     </g>
-    <g v-for="(black, index) in blacks" :key="index" :transform="blackPos(black)">
+    <g v-for="(black, index) in blacks" :key="index" :transform="blackPos(black.pos)" @click="play(black.note)" :class="{'selected': selectedNote === black.note}">
       <rect fill="#000000" stroke="#000" width="12" height="60" id="svg_5"/>
       <rect fill="#666666" stroke-width="0" x="11" y="0.333334" width="1" height="59" id="svg_6" stroke="#000"/>
       <rect fill="url(#svg_10)" stroke-width="0" x="0.833333" y="56" width="10.5" height="3.666667" id="svg_8" stroke="#000"/>
@@ -21,31 +21,88 @@
   </svg>
 </template>
 <script>
+var audioContext = new AudioContext();
+function mtof(noteNumber) {
+  return 440 * Math.pow(2, (noteNumber - 69) / 12);
+}
+
+function playNote(noteNumber, length) {
+  var osc1 = audioContext.createOscillator();
+  var amp = audioContext.createGain();
+  var release = 0.05;
+  osc1.frequency.value = mtof(noteNumber);
+  osc1.connect(amp);
+  amp.gain.value = 0.1;
+  osc1.start();
+  amp.connect(audioContext.destination);
+  setTimeout(function() {
+    var now = audioContext.currentTime;
+    amp.gain.setValueAtTime(amp.gain.value, now);
+    amp.gain.linearRampToValueAtTime(0, now + release);
+    osc1.stop(now + release);
+  }, length);
+}
 
 export default {
-  data(){
+  data() {
     return {
       whites: [],
-      blacks: []
-    }
+      blacks: [],
+      selectedNote: -1
+    };
   },
   methods: {
-    whitePos(index){
-      return `translate(${index * 20},0)`
+    whitePos(index) {
+      return `translate(${index * 20},0)`;
     },
-    blackPos(index){
-      return `translate(${index * 20 + 4},0)`
+    blackPos(index) {
+      return `translate(${index * 20 + 4},0)`;
+    },
+    play(note) {
+      this.selectedNote = note
+      playNote(note + 48, 100);
     }
   },
-  mounted(){
-    for(let i = 0; i < 4; i++){
-      this.whites = this.whites.concat([0, 1, 2, 3, 4, 5, 6].map(n => n + 7 * i));
-      this.blacks = this.blacks.concat([0.5, 1.5, 3.5, 4.5, 5.5].map(n => n + 7 * i));
-
+  mounted() {
+    function toNote(i) {
+      return function(n) {
+        return {
+          pos: n.pos + 7 * i,
+          note: n.note + 12 * i
+        };
+      };
     }
 
+    for (let i = 0; i < 4; i++) {
+      this.whites = this.whites.concat(
+        [
+          { pos: 0, note: 0 },
+          { pos: 1, note: 2 },
+          { pos: 2, note: 4 },
+          { pos: 3, note: 5 },
+          { pos: 4, note: 7 },
+          { pos: 5, note: 9 },
+          { pos: 6, note: 11 }
+        ].map(toNote(i))
+      );
+      this.blacks = this.blacks.concat(
+        [
+          { pos: 0.5, note: 1 },
+          { pos: 1.5, note: 3 },
+          { pos: 3.5, note: 6 },
+          { pos: 4.5, note: 8 },
+          { pos: 5.5, note: 10 }
+        ].map(toNote(i))
+      );
+    }
   }
-}
+};
 </script>
+<style>
+.selected rect{
+  stroke: blue;
+  stroke-width: 2px;
+}
+</style>
 
 
