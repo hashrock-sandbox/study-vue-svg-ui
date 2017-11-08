@@ -10,10 +10,10 @@
       <stop stop-color="#ffffff" stop-opacity="0.996094" offset="1"/>
       </linearGradient>
     </defs>
-    <g v-for="(white, index) in whites" :key="index" :transform="whitePos(index)" @click="play(white.note)" :class="{'selected': selectedNote === white.note}">
+    <g v-for="(white, index) in whites" :key="index" :transform="whitePos(index)" @mousedown="play(white.note)" :class="{'selected': selectedNote === white.note}">
       <rect stroke="#000" id="svg_1" height="100" width="20" x="-0.333333" fill="url(#svg_4)"/>
     </g>
-    <g v-for="(black, index) in blacks" :key="index" :transform="blackPos(black.pos)" @click="play(black.note)" :class="{'selected': selectedNote === black.note}">
+    <g v-for="(black, index) in blacks" :key="index" :transform="blackPos(black.pos)" @mousedown="play(black.note)" :class="{'selected': selectedNote === black.note}">
       <rect fill="#000000" stroke="#000" width="12" height="60" id="svg_5"/>
       <rect fill="#666666" stroke-width="0" x="11" y="0.333334" width="1" height="59" id="svg_6" stroke="#000"/>
       <rect fill="url(#svg_10)" stroke-width="0" x="0.833333" y="56" width="10.5" height="3.666667" id="svg_8" stroke="#000"/>
