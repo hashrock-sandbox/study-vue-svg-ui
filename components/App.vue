@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <piano></piano>
     <cute-button></cute-button>
     <sparkline></sparkline>
     <slider></slider>
@@ -10,6 +11,7 @@
 import CuteButton from "./CuteButton.vue"
 import Sparkline from "./Sparkline.vue"
 import Slider from "./Slider.vue"
+import Piano from "./Piano.vue"
 export default {
   name: 'app',
   data () {
@@ -19,7 +21,8 @@ export default {
   components: {
     CuteButton,
     Sparkline,
-    Slider
+    Slider,
+    Piano
   }
 }
 </script>
