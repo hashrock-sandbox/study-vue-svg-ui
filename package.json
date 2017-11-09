@@ -9,7 +9,8 @@
   },
   "scripts": {
     "dev": "poi",
-    "build": "poi build"
+    "build": "poi build",
+    "deploy": "gh-pages -d dist"
   },
   "poi": {
     "homepage": "./"
