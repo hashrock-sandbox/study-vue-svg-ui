@@ -7,9 +7,11 @@
   "dependencies": {
     "poi": "^9.5.1"
   },
-  "homepage": "/study-vue-svg-ui/",
   "scripts": {
     "dev": "poi",
     "build": "poi build"
-  }
+  },
+  "poi": {
+    "homepage": "/study-vue-svg-ui/"
+  } 
 }
