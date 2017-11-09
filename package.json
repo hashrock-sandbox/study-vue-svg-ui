@@ -12,6 +12,6 @@
     "build": "poi build"
   },
   "poi": {
-    "homepage": "/study-vue-svg-ui/"
+    "homepage": "./"
   } 
 }
