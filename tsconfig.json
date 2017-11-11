@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    // これは Vue のブラウザサポートに合わせます
+    "target": "es5",
+    // これは `this` におけるデータプロパティに対して厳密な推論を可能にします
+    "strict": true,
+    // webpack 2 以降 または rollup を使用している場合、ツリーシェイキングを活用するために
+    "module": "es2015",
+    "moduleResolution": "node"
+  }
+}

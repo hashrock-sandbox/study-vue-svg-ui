@@ -4,28 +4,30 @@
   </svg>  
 </template>
 
-<script>
-export default {
-  data(){
+<script lang="ts">
+import Vue from "vue";
+export default Vue.extend({
+  data() {
     return {
-      dat: []
+      dat: <number[]>[]
+    };
+  },
+  computed: {
+    points(): string {
+      return this.dat
+        .map((item: number, i: number) => {
+          return `${i},${item}`;
+        })
+        .join(" ");
     }
   },
-  computed:{
-    points(){
-      return this.dat.map((item, i)=>{
-        return `${i},${item}`
-      }).join(" ")
-    }
-  },
-  mounted(){
+  mounted() {
     //ランダムデータ
-    for(let i =0; i < 300; i++){
+    for (let i = 0; i < 300; i++) {
       this.dat.push(
         (Math.random() + Math.random() + Math.random() + Math.random()) / 4 * 50
-      )
+      );
     }
   }
-
-}
+});
 </script>

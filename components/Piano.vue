@@ -20,13 +20,15 @@
     </g>
   </svg>
 </template>
-<script>
+<script lang="ts">
+import Vue from "vue"
+
 var audioContext = new AudioContext();
-function mtof(noteNumber) {
+function mtof(noteNumber: number) {
   return 440 * Math.pow(2, (noteNumber - 69) / 12);
 }
 
-function playNote(noteNumber, length) {
+function playNote(noteNumber: number, length: number) {
   var osc1 = audioContext.createOscillator();
   var amp = audioContext.createGain();
   var release = 0.05;
@@ -43,29 +45,34 @@ function playNote(noteNumber, length) {
   }, length);
 }
 
-export default {
+interface Note{
+  pos: number
+  note: number
+}
+
+export default Vue.extend({
   data() {
     return {
-      whites: [],
-      blacks: [],
+      whites: <Note[]>[],
+      blacks: <Note[]>[],
       selectedNote: -1
     };
   },
   methods: {
-    whitePos(index) {
+    whitePos(index: number) {
       return `translate(${index * 20},0)`;
     },
-    blackPos(index) {
+    blackPos(index: number) {
       return `translate(${index * 20 + 4},0)`;
     },
-    play(note) {
+    play(note: number) {
       this.selectedNote = note
       playNote(note + 48, 100);
     }
   },
   mounted() {
-    function toNote(i) {
-      return function(n) {
+    function toNote(i: number) {
+      return function(n: Note) {
         return {
           pos: n.pos + 7 * i,
           note: n.note + 12 * i
@@ -96,7 +103,7 @@ export default {
       );
     }
   }
-};
+})
 </script>
 <style>
 .selected rect{

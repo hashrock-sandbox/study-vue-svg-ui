@@ -56,16 +56,17 @@
   </g>
 </svg>
 </template>
-<script>
+<script lang="ts">
+import Vue from "vue"
 
-function scale(val){
+function scale(val: number){
   return 18 + (341 - 18) * val / 100
 }
-function invert(x){
+function invert(x: number){
   return (100 * x - 18) / (341-18)
 }
 
-export default {
+export default Vue.extend({
   data(){
     return {
       val: 50,
@@ -81,11 +82,11 @@ export default {
     }
   },
   methods:{
-    startDrag(e){
+    startDrag(e: PointerEvent){
       this.drag = true
       this.offset = e.offsetX - scale(this.val)
     },
-    onDrag(e){
+    onDrag(e: PointerEvent){
       if(this.drag){
         this.val = invert(e.offsetX - this.offset)
         if(this.val > 100){
@@ -96,7 +97,7 @@ export default {
         }
       }
     },
-    stopDrag(e){
+    stopDrag(e: PointerEvent){
       this.drag = false
       this.offset = 0
     },
@@ -119,5 +120,5 @@ export default {
       }
     }, 200)
   }
-}
+})
 </script>

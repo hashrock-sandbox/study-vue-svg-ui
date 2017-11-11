@@ -9,8 +9,10 @@
     <circle r="5" :cx="130 + dx" :cy="20 + dy" class="eye-inner"></circle>
   </svg>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue"
+
+export default Vue.extend({
   data(){
     return {
       dx: 2,
@@ -18,17 +20,16 @@ export default {
     }
   },
   methods: {
-    over(ev){
+    over(ev: MouseEvent){
       const cx = 100
       const cy = 20
       const dx = ev.offsetX - cx
       const dy = ev.offsetY - cy
       this.dx = dx / 400 * 4
       this.dy = dy / 80 * 4
-      console.log(dx, dy )
     }
   }
-}
+})
 </script>
 <style scoped>
 rect{

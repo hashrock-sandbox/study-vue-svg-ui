@@ -11,11 +11,21 @@
 
   </svg>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue"
+
+interface Line{
+  x1: number
+  x2: number
+  y1: number
+  y2: number
+  color: string
+}
+
+export default Vue.extend({
   data(){
     return {
-      lines: [],
+      lines: <number[]>[],
       t: 0,
       d: 0.005,
       l: 15,
@@ -31,7 +41,7 @@ export default {
         this.ay = -2
       }
     },
-    toPos(i){
+    toPos(i: number): Line{
       const cx = 50;
       const cy = 50 + this.dy;
       const l2 = 30;
@@ -71,7 +81,7 @@ export default {
     }, 10)
 
   }
-}
+})
 </script>
 <style scoped>
 line{

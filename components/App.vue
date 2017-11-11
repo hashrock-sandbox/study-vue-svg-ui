@@ -10,17 +10,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue"
+
 import CuteButton from "./CuteButton.vue"
 import Sparkline from "./Sparkline.vue"
 import Slider from "./Slider.vue"
 import Piano from "./Piano.vue"
 import Spin from "./Spin.vue"
 
-export default {
+export default Vue.extend({
   name: 'app',
   data () {
     return {
+      msg: ""
     }
   },
   components: {
@@ -29,8 +32,13 @@ export default {
     Slider,
     Piano,
     Spin
+  },
+  methods: {
+    test(){
+    }
   }
-}
+
+})
 </script>
 
 <style>
