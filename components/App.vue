@@ -7,6 +7,7 @@
     <cute-button></cute-button>
     <sparkline></sparkline>
     <slider></slider>
+    <line-chart></line-chart>
   </div>
 </template>
 
@@ -18,6 +19,7 @@ import Sparkline from "./Sparkline.vue"
 import Slider from "./Slider.vue"
 import Piano from "./Piano.vue"
 import Spin from "./Spin.vue"
+import LineChart from "./LineChart.vue"
 
 export default Vue.extend({
   name: 'app',
@@ -31,7 +33,8 @@ export default Vue.extend({
     Sparkline,
     Slider,
     Piano,
-    Spin
+    Spin,
+    LineChart
   },
   methods: {
     test(){

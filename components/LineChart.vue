@@ -1,0 +1,59 @@
+<template>
+  <div>
+  <svg width="300" height="50">
+    <polyline fill="none" stroke="#793" :points="points"></polyline>
+  </svg>
+  <div>
+    center: <input type="range" min="0" max="100" v-model="cx">
+    zoom: <input type="range" min="0.05" max="1" step="0.05" v-model="zoom">
+  </div>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+import * as scale from "d3-scale"
+
+const scaleproto =  scale.scaleLinear()
+let scalefn: scale.ScaleLinear<number, number>
+
+export default Vue.extend({
+  data() {
+    return {
+      dat: <number[]>[],
+      cx: "150",
+      zoom: 1
+    };
+  },
+  computed: {
+    x1(): number{
+      return parseInt(this.cx, 10) - this.zoom * 50
+    },
+    x2(): number{
+      return parseInt(this.cx, 10) + this.zoom * 50
+    },
+    points(): string {
+      scalefn = scaleproto.domain([this.x1, this.x2]).range([0, 300])
+      return this.dat
+        .map((item: number, i: number) => {
+          return `${scalefn(i)},${item}`;
+        })
+        .join(" ");
+    }
+  },
+  mounted() {
+    //ランダムデータ
+    for (let i = 0; i < 300; i++) {
+      this.dat.push(
+        (Math.random() + Math.random() + Math.random() + Math.random()) / 4 * 50
+      );
+    }
+    scalefn = scaleproto.domain([0, 20]).range([0, 300])
+  }
+});
+</script>
+<style scoped>
+svg{
+  background: white;
+}
+</style>

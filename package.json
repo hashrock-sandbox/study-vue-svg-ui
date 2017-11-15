@@ -5,6 +5,7 @@
   "author": "hashrock <hashrock@users.noreply.github.com>",
   "private": true,
   "dependencies": {
+    "d3-scale": "^1.0.6",
     "poi": "^9.5.1",
     "poi-preset-typescript": "^9.0.2",
     "typescript": "^2.6.1"
@@ -17,5 +18,8 @@
   "poi": {
     "homepage": "./"
   },
-  "main": "./index.ts"
+  "main": "./index.ts",
+  "devDependencies": {
+    "@types/d3-scale": "^1.0.10"
+  }
 }
