@@ -15,9 +15,6 @@
     "build": "poi build",
     "deploy": "gh-pages -d dist"
   },
-  "poi": {
-    "homepage": "./"
-  },
   "main": "./index.ts",
   "devDependencies": {
     "@types/d3-scale": "^1.0.10"
