@@ -1,6 +1,6 @@
 <template>
   <div>
-  <svg width="300" height="50" @wheel="wheel">
+  <svg width="300" height="100" @wheel="wheel" @pointerdown="startDrag" @pointermove="onDrag" @pointerup="stopDrag">
     <polyline fill="none" stroke="#793" :points="points"></polyline>
   </svg>
   <div>
@@ -22,23 +22,26 @@ export default Vue.extend({
     return {
       dat: <number[]>[],
       cx: "150",
-      zoom: 1
+      zoom: 1,
+      drag: false,
+      offset: 0,
+      move: 0
     };
   },
   computed: {
     x1(): number{
-      return parseInt(this.cx, 10) - this.zoom * 50
+      return parseFloat(this.cx) - this.zoom * 75
     },
     x2(): number{
-      return parseInt(this.cx, 10) + this.zoom * 50
+      return parseFloat(this.cx) + this.zoom * 75
     },
     points(): string {
       scalefn = scaleproto.domain([this.x1, this.x2]).range([0, 300])
-      return this.dat
+      return `${scalefn(0)},100 ` + this.dat
         .map((item: number, i: number) => {
           return `${scalefn(i)},${item}`;
         })
-        .join(" ");
+        .join(" ") + ` ${scalefn(300)}, 100`;
     }
   },
   methods: {
@@ -47,13 +50,28 @@ export default Vue.extend({
       if(this.zoom <= 0){
         this.zoom = 0.05
       }
-    }
+    },
+    startDrag(e: PointerEvent){
+      this.drag = true
+      this.offset = e.offsetX
+    },
+    onDrag(e: PointerEvent){
+      if(this.drag){
+        this.move = (this.offset - e.offsetX) * this.zoom / 2
+        this.offset = e.offsetX
+        this.cx = (parseFloat(this.cx) + this.move).toString()
+      }
+    },
+    stopDrag(e: PointerEvent){
+      this.drag = false
+      this.offset = 0
+    },    
   },
   mounted() {
     //ランダムデータ
     for (let i = 0; i < 300; i++) {
       this.dat.push(
-        (Math.random() + Math.random() + Math.random() + Math.random()) / 4 * 50
+        (Math.random() + Math.random() + Math.random() + Math.random()) / 4 * 100
       );
     }
     scalefn = scaleproto.domain([0, 20]).range([0, 300])
@@ -63,5 +81,9 @@ export default Vue.extend({
 <style scoped>
 svg{
   background: white;
+  cursor: -webkit-grab; 
+}
+polyline{
+  fill: #e7ece7;
 }
 </style>
