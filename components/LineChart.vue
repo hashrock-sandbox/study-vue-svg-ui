@@ -1,8 +1,8 @@
 <template>
   <div>
-  <svg width="300" height="100" @wheel="wheel" @pointerdown="startDrag" @pointermove="onDrag" @pointerup="stopDrag">
+  <svg :width="w" :height="h" @wheel="wheel" @pointerdown="startDrag" @pointermove="onDrag" @pointerup="stopDrag">
     <polyline fill="none" stroke="#793" :points="points"></polyline>
-    <line class="grid" v-for="(tick, index) in ticks" :key="index" :x1="scaleTick(tick)" :y1="0" :x2="scaleTick(tick)" :y2="100"></line>
+    <line class="grid" v-for="(tick, index) in ticks" :key="index" :x1="scaleTick(tick)" :y1="0" :x2="scaleTick(tick)" :y2="h"></line>
   </svg>
   </div>
 </template>
@@ -17,6 +17,8 @@ let scalefn: scale.ScaleLinear<number, number>
 export default Vue.extend({
   data() {
     return {
+      w: 400,
+      h: 200,
       dat: <number[]>[],
       cx: 150,
       zoom: 2,
@@ -34,13 +36,13 @@ export default Vue.extend({
       return this.cx + 150 / this.zoom
     },
     points(): string {
-      scalefn = scaleproto.domain([this.x1, this.x2]).range([0, 300])
+      scalefn = scaleproto.domain([this.x1, this.x2]).range([0, this.w])
       this.ticks = scalefn.ticks(5)
-      return `${scalefn(0)},100 ` + this.dat
+      return `${scalefn(0)},${this.h} ` + this.dat
         .map((item: number, i: number) => {
           return `${scalefn(i)},${item}`;
         })
-        .join(" ") + ` ${scalefn(300)}, 100`;
+        .join(" ") + ` ${scalefn(300)}, ${this.h}`;
     }
   },
   methods: {
@@ -73,10 +75,10 @@ export default Vue.extend({
     //ランダムデータ
     for (let i = 0; i < 300; i++) {
       this.dat.push(
-        (Math.random() + Math.random() + Math.random() + Math.random()) / 4 * 100
+        (Math.random() + Math.random() + Math.random() + Math.random()) / 4 * this.h
       );
     }
-    scalefn = scaleproto.domain([0, 20]).range([0, 300])
+    scalefn = scaleproto.domain([0, 20]).range([0, this.w])
   }
 });
 </script>
