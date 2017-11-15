@@ -3,10 +3,6 @@
   <svg width="300" height="100" @wheel="wheel" @pointerdown="startDrag" @pointermove="onDrag" @pointerup="stopDrag">
     <polyline fill="none" stroke="#793" :points="points"></polyline>
   </svg>
-  <div>
-    center: <input type="range" min="0" max="100" v-model="cx">
-    zoom: <input type="range" min="0.05" max="1" step="0.05" v-model="zoom">
-  </div>
   </div>
 </template>
 
@@ -21,8 +17,8 @@ export default Vue.extend({
   data() {
     return {
       dat: <number[]>[],
-      cx: "150",
-      zoom: 1,
+      cx: 150,
+      zoom: 2,
       drag: false,
       offset: 0,
       move: 0
@@ -30,10 +26,10 @@ export default Vue.extend({
   },
   computed: {
     x1(): number{
-      return parseFloat(this.cx) - this.zoom * 75
+      return this.cx - 150 / this.zoom
     },
     x2(): number{
-      return parseFloat(this.cx) + this.zoom * 75
+      return this.cx + 150 / this.zoom
     },
     points(): string {
       scalefn = scaleproto.domain([this.x1, this.x2]).range([0, 300])
@@ -46,7 +42,7 @@ export default Vue.extend({
   },
   methods: {
     wheel(event: MouseWheelEvent){
-      this.zoom += event.deltaY * (event.deltaMode ? 120 : 1) / 500;
+      this.zoom = this.zoom + -event.deltaY * (event.deltaMode ? 120 : 1) / 500
       if(this.zoom <= 0){
         this.zoom = 0.05
       }
@@ -57,9 +53,9 @@ export default Vue.extend({
     },
     onDrag(e: PointerEvent){
       if(this.drag){
-        this.move = (this.offset - e.offsetX) * this.zoom / 2
+        this.move = (this.offset - e.offsetX) / this.zoom
         this.offset = e.offsetX
-        this.cx = (parseFloat(this.cx) + this.move).toString()
+        this.cx = this.cx + this.move
       }
     },
     stopDrag(e: PointerEvent){
@@ -81,7 +77,7 @@ export default Vue.extend({
 <style scoped>
 svg{
   background: white;
-  cursor: -webkit-grab; 
+  cursor: normal; 
 }
 polyline{
   fill: #e7ece7;
