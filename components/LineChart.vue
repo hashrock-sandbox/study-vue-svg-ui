@@ -1,6 +1,6 @@
 <template>
   <div>
-  <svg width="300" height="50">
+  <svg width="300" height="50" @wheel="wheel">
     <polyline fill="none" stroke="#793" :points="points"></polyline>
   </svg>
   <div>
@@ -39,6 +39,14 @@ export default Vue.extend({
           return `${scalefn(i)},${item}`;
         })
         .join(" ");
+    }
+  },
+  methods: {
+    wheel(event: MouseWheelEvent){
+      this.zoom += event.deltaY * (event.deltaMode ? 120 : 1) / 500;
+      if(this.zoom <= 0){
+        this.zoom = 0.05
+      }
     }
   },
   mounted() {
