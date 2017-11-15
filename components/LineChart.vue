@@ -2,6 +2,7 @@
   <div>
   <svg width="300" height="100" @wheel="wheel" @pointerdown="startDrag" @pointermove="onDrag" @pointerup="stopDrag">
     <polyline fill="none" stroke="#793" :points="points"></polyline>
+    <line class="grid" v-for="(tick, index) in ticks" :key="index" :x1="scaleTick(tick)" :y1="0" :x2="scaleTick(tick)" :y2="100"></line>
   </svg>
   </div>
 </template>
@@ -21,7 +22,8 @@ export default Vue.extend({
       zoom: 2,
       drag: false,
       offset: 0,
-      move: 0
+      move: 0,
+      ticks: <number[]>[]
     };
   },
   computed: {
@@ -33,6 +35,7 @@ export default Vue.extend({
     },
     points(): string {
       scalefn = scaleproto.domain([this.x1, this.x2]).range([0, 300])
+      this.ticks = scalefn.ticks(5)
       return `${scalefn(0)},100 ` + this.dat
         .map((item: number, i: number) => {
           return `${scalefn(i)},${item}`;
@@ -46,6 +49,9 @@ export default Vue.extend({
       if(this.zoom <= 0){
         this.zoom = 0.05
       }
+    },
+    scaleTick(x: number){
+      return scalefn(x)
     },
     startDrag(e: PointerEvent){
       this.drag = true
@@ -82,4 +88,8 @@ svg{
 polyline{
   fill: #e7ece7;
 }
+.grid{
+  stroke: #d5ded5;
+}
+
 </style>
