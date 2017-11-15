@@ -1,10 +1,8 @@
 <template>
-  <div>
   <svg :width="w" :height="h" @wheel="wheel" @pointerdown="startDrag" @pointermove="onDrag" @pointerup="stopDrag">
     <polyline fill="none" stroke="#793" :points="points"></polyline>
     <line class="grid" v-for="(tick, index) in ticks" :key="index" :x1="scaleTick(tick)" :y1="0" :x2="scaleTick(tick)" :y2="h"></line>
   </svg>
-  </div>
 </template>
 
 <script lang="ts">
